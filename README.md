@@ -47,7 +47,7 @@ A comprehensive automated trading bot for cryptocurrency markets with multiple s
 ### Build
 ```bash
 git clone <repository>
-cd spring-trading-bot
+cd multi-strategy-trading-bot
 mvn clean install
 ```
 
