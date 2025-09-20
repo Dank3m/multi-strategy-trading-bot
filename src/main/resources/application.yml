@@ -1,0 +1,119 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:tradingdb
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+binance:
+  api:
+    key: ${BINANCE_API_KEY}
+    secret: ${BINANCE_SECRET_KEY}
+    base-url: https://api.binance.com
+    testnet: true
+
+trading:
+  symbol: BTCUSDT
+  risk-per-trade: 0.01  # 1% risk per trade
+  max-positions: 5
+  enable-live-trading: false
+
+  strategies:
+    trend-following:
+      enabled: true
+      allocation: 0.4
+      sma-short: 50
+      sma-long: 200
+      breakout-period: 20
+      volume-multiplier: 1.5
+      atr-multiplier: 1.5
+
+    volatility-breakout:
+      enabled: true
+      allocation: 0.3
+      atr-period: 14
+      compression-percentile: 0.3
+      volume-multiplier: 1.7
+      reward-risk-ratio: 2.0
+
+    mean-reversion:
+      enabled: true
+      allocation: 0.2
+      range-period: 20
+      bollinger-period: 20
+      bollinger-std: 2
+      volume-multiplier: 2.0
+
+    volume-spike:
+      enabled: true
+      allocation: 0.1
+      volume-multiplier: 3.0
+      wick-ratio: 0.3
+
+logging:
+  level:
+    com.trading: DEBUG
+    org.springframework: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+  file:
+    name: logs/trading-bot.log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 30
+
+alerts:
+  email:
+    enabled: true
+    recipients:
+      - admin@example.com
+    critical-only: false
+
+  telegram:
+    enabled: true
+    bot-token: ${TELEGRAM_BOT_TOKEN}
+    chat-id: ${TELEGRAM_CHAT_ID}
+
+  thresholds:
+    max-drawdown: 0.10  # 10% drawdown alert
+    position-loss: 0.05  # 5% position loss alert
+    daily-loss: 0.03     # 3% daily loss alert
+
+backtesting:
+  initial-capital: 10000
+  commission: 0.001  # 0.1% commission
+  slippage: 0.0005   # 0.05% slippage
+  data-path: ./historical-data/
+
+ml:
+  enabled: true
+  model-path: ./models/
+  retrain-interval: 168  # hours
+  min-confidence: 0.65
+
+websocket:
+  binance:
+    stream-url: wss://stream.binance.com:9443/ws
+    reconnect-interval: 5000
+
+metrics:
+  export:
+    prometheus:
+      enabled: true
