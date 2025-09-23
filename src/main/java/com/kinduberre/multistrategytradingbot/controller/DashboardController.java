@@ -1,8 +1,17 @@
 package com.kinduberre.multistrategytradingbot.controller;
 
+import com.kinduberre.multistrategytradingbot.model.DashboardMetrics;
+import com.kinduberre.multistrategytradingbot.model.EquityPoint;
+import com.kinduberre.multistrategytradingbot.model.StrategyMetrics;
+import com.kinduberre.multistrategytradingbot.model.SystemHealth;
+import com.kinduberre.multistrategytradingbot.service.DashboardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.scheduling.annotation.Scheduled;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/dashboard")
@@ -11,6 +20,7 @@ public class DashboardController {
 
     private final DashboardService dashboardService;
     private final SimpMessagingTemplate messagingTemplate;
+
 
     @GetMapping("/metrics")
     public DashboardMetrics getMetrics() {

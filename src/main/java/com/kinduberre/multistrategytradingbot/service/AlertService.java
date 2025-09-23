@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
         @Value("${alerts.email.enabled}")
         private boolean emailEnabled;
 
-        @Value("${alerts.email.recipients}")
+        @Value("#{'${alerts.email.recipients}'.split(',')}")
         private List<String> emailRecipients;
 
         @Value("${alerts.telegram.enabled}")
